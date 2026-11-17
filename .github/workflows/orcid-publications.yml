@@ -1,0 +1,107 @@
+name: Publications from ORCID
+
+on:
+  schedule:
+    - cron: '17 6 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Rewrite the Research section from ORCID
+        run: |
+          python3 - <<'PY'
+          import json, re, sys, urllib.request
+
+          ORCID = '0009-0001-4352-1733'
+          START = '<!-- ORCID:START -->'
+          END = '<!-- ORCID:END -->'
+          API = 'https://pub.orcid.org/v3.0'
+
+          def get(url):
+              req = urllib.request.Request(url, headers={'Accept': 'application/json'})
+              with urllib.request.urlopen(req, timeout=60) as resp:
+                  return json.load(resp)
+
+          def tidy(name):
+              name = name.strip()
+              return name.title() if name.isupper() else name
+
+          try:
+              groups = get(API + '/' + ORCID + '/works')['group']
+          except Exception as exc:
+              print('ORCID unavailable: ' + str(exc))
+              sys.exit(0)
+
+          entries = []
+          for group in groups:
+              summary = group['work-summary'][0]
+              try:
+                  work = get(API + '/' + ORCID + '/work/' + str(summary['put-code']))
+              except Exception:
+                  work = summary
+              title = ((work.get('title') or {}).get('title') or {}).get('value', '').strip()
+              if not title:
+                  continue
+              journal = (work.get('journal-title') or {}).get('value', '')
+              year = ((work.get('publication-date') or {}).get('year') or {}).get('value', '')
+              doi = ''
+              for eid in ((work.get('external-ids') or {}).get('external-id') or []):
+                  if eid.get('external-id-type') == 'doi':
+                      doi = eid.get('external-id-value', '')
+                      break
+              names = [tidy((c.get('credit-name') or {}).get('value') or '')
+                       for c in ((work.get('contributors') or {}).get('contributor') or [])]
+              names = [n for n in names if n]
+              line = '- '
+              if names:
+                  line += ', '.join(names) + ' '
+              if year:
+                  line += '(' + year + '). '
+              line += title.rstrip('.') + '.'
+              if journal:
+                  line += ' *' + journal + '*.'
+              if doi:
+                  line += ' [' + doi + '](https://doi.org/' + doi + ')'
+              entries.append((year or '0', line))
+
+          if not entries:
+              print('No works returned; README left unchanged.')
+              sys.exit(0)
+
+          entries.sort(key=lambda item: item[0], reverse=True)
+          block = chr(10).join(line for _, line in entries)
+
+          with open('README.md', encoding='utf-8') as fh:
+              readme = fh.read()
+          updated = re.sub(
+              re.escape(START) + r'.*?' + re.escape(END),
+              START + chr(10) + block + chr(10) + END,
+              readme,
+              flags=re.S,
+          )
+          if updated != readme:
+              with open('README.md', 'w', encoding='utf-8') as fh:
+                  fh.write(updated)
+              print('README updated.')
+          else:
+              print('No change.')
+          PY
+
+      - name: Commit when the list changed
+        run: |
+          if [ -n "$(git status --porcelain README.md)" ]; then
+            git config user.name 'github-actions[bot]'
+            git config user.email 'github-actions[bot]@users.noreply.github.com'
+            git add README.md
+            git commit -m 'Update publications from ORCID'
+            git push
+          else
+            echo 'Nothing to commit.'
+          fi
