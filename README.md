@@ -20,8 +20,12 @@ Example output from forplotR: [interactive plot map, MONITORA format](https://gi
 ### Research
 
 <!-- ORCID:START -->
-- Ottino, G.C., Amorim, A.M.A., Fraga, C.N., Fiaschi, P., Silva, S.P., Silva, L.F.G., Soares-Silva, J.P., Marinho, L.C., Cardoso, D. & Viana, P.L. (2026). A long-term permanent forest plot reveals a remarkable new species of *Roucheria* (Linaceae) from the Brazilian Atlantic Rainforest. *Phytotaxa* 763(3). [10.11646/phytotaxa.763.3.5](https://doi.org/10.11646/phytotaxa.763.3.5)
-- Brito, T.A.M., Silva, A.L., Araújo, Y.F., Fonseca, N.R., Ottino, G.C., Cardoso, D.B.O.S., Tavares, J.F., Abreu, L.S. & Silva, M.S. (2026). Metabolic profiling of *Metternichia macrocalyx* and *Metternichia principis* (Solanaceae) using LC-ESI-Q-TOF-MS/MS data in molecular networking and chemometric analysis. *Natural Product Research*. [10.1080/14786419.2026.2625442](https://doi.org/10.1080/14786419.2026.2625442)
+- Giulia Cavalcanti Ottino, André Márcio Araujo Amorim, Claudio Nicoletti De Fraga, Pedro Fiaschi, Sávio Pessoa Silva, Luis Fernando Gonçalves Da Silva, Joao Paulo Soares-Silva, Lucas Cardoso Marinho, Domingos Cardoso, Pedro Lage Viana (2026). A long-term permanent forest plot reveals a remarkable new species of Roucheria (Linaceae) from the Brazilian Atlantic Rainforest. *Phytotaxa*. [10.11646/phytotaxa.763.3.5](https://doi.org/10.11646/phytotaxa.763.3.5)
+- Thiago Araújo de Medeiros Brito, Anauara Lima e Silva, Yasmin Ferreira de Araújo, Natyele Rodrigues Fonseca, Giulia Cavalcanti Ottino, Domingos Benício Oliveira Silva Cardoso, Josean Fechine Tavares, Lucas Silva Abreu, Marcelo Sobral da Silva (2026). Metabolic profiling of
+                    <i>Metternichia macrocalyx</i>
+                    and
+                    <i>Metternichia principis</i>
+                    (Solanaceae) using LC-ESI-Q-TOF-MS/MS data in molecular networking and chemometric analysis. *Natural Product Research*. [10.1080/14786419.2026.2625442](https://doi.org/10.1080/14786419.2026.2625442)
 <!-- ORCID:END -->
 
 ### Interests
